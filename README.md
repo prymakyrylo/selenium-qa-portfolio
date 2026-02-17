@@ -6,8 +6,8 @@ Automated end-to-end test suite for SauceDemo built with Python, Selenium, and p
 **Tech Stack**
 
 Python 3.14
-Selenium WebDriver — browser automation
-pytest — test framework
+Selenium WebDriver - browser automation
+pytest - test framework
 ChromeDriver — Chrome browser driver (auto-managed via webdriver-manager)
 
 
