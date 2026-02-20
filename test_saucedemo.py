@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import NoSuchElementException
 import pytest 
 import time
 
@@ -27,19 +28,9 @@ def nameFill(driver, first, last, zip_num):
 @pytest.fixture
 def driver():
     options = webdriver.ChromeOptions()
+    options.add_argument("--incognito")  # Nuclear option
     options.add_argument("--disable-notifications")
-    options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-extensions")
-    options.add_argument("--disable-save-password-bubble")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-    
-    # Disable password manager
-    prefs = {
-        "credentials_enable_service": False,
-        "profile.password_manager_enabled": False
-    }
-    options.add_experimental_option("prefs", prefs)
     
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
@@ -86,6 +77,16 @@ def test_full_checkout_flow(driver):
      message = driver.find_element(By.CLASS_NAME, "complete-header")
      assert "Thank you for your order!" in message.text
 
+def test_remove_item_from_cart(driver):
+     login(driver, "standard_user", "secret_sauce")
+     driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+     driver.find_element(By.CLASS_NAME, "shopping_cart_badge").click()  
+
+     # XPATH selector
+     driver.find_element(By.XPATH, "//button[text()='Remove']").click()
+
+     badges = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
+     assert len(badges) == 0, f"Expected no badge, but found {len(badges)}"
 
 
 
