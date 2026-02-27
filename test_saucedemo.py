@@ -16,10 +16,10 @@ def login(driver, username, password):
      driver.get(BASE_URL)
      driver.find_element(By.ID, "user-name").send_keys(username)
      driver.find_element(By.ID, "password").send_keys(password)
-     driver.find_element(By.ID, "login-button").click()
+     driver.find_element(By.CSS_SELECTOR, "input#login-button").click()
 
 def nameFill(driver, first, last, zip_num):
-     driver.find_element(By.ID, "first-name").send_keys(first)
+     driver.find_element(By.CSS_SELECTOR, "input#first-name").send_keys(first)
      driver.find_element(By.ID, "last-name").send_keys(last)
      driver.find_element(By.ID, "postal-code").send_keys(zip_num)
 
@@ -39,7 +39,7 @@ def driver():
     driver.implicitly_wait(5)
     yield driver
     driver.quit()
-
+1
 # ── TESTS ─────────────────────────────────────────────────────────────────────
 
 def test_valid_login(driver):
@@ -58,15 +58,18 @@ def test_empty_login(driver):
 
 def test_add_to_card(driver):
      login(driver, "standard_user", "secret_sauce")
-     driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+     driver.find_element(By.XPATH, "//button[text()='Add to cart']").click()
      badge = driver.find_element(By.CLASS_NAME, "shopping_cart_badge")
      assert badge.text == "1"
 
 def test_full_checkout_flow(driver):
      login(driver, "standard_user", "secret_sauce")
      driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
-     driver.find_element(By.CLASS_NAME, "shopping_cart_badge").click()
-     driver.find_element(By.ID, "checkout").click() 
+
+     driver.find_element(By.XPATH, "//div[@id='shopping_cart_container']").click()
+
+     driver.find_element(By.XPATH, "//button[text()='Checkout']").click() 
+
      nameFill(driver, "Kai", "Pryma", "10000") 
      driver.find_element(By.ID, "continue").click()
 
