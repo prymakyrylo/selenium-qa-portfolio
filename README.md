@@ -1,43 +1,35 @@
 # selenium-qa-portfolio
 
-Automated end-to-end test suite for SauceDemo built with Python, Selenium, and pytest.
+Automated end-to-end test suite for [SauceDemo](https://www.saucedemo.com) built with Python, Selenium, and pytest.
 
+## Tech Stack
 
-**Tech Stack**
+- Python 3
+- Selenium WebDriver (browser automation)
+- pytest (test framework)
+- webdriver-manager (ChromeDriver management)
 
-Python 3.14
-Selenium WebDriver - browser automation
-pytest - test framework
-ChromeDriver — Chrome browser driver (auto-managed via webdriver-manager)
+## Test Coverage
 
+| Test | Description |
+|------|-------------|
+| `test_valid_login` | Successful login redirects to the inventory page |
+| `test_false_login` | Error message shown for a wrong username and password |
+| `test_empty_login` | Error message shown when login fields are empty |
+| `test_add_to_cart` | Cart badge updates when an item is added |
+| `test_full_checkout_flow` | Login, add item, checkout, order confirmation |
+| `test_remove_item_from_cart` | Cart badge disappears after removing the item |
 
-**Test Coverage**
+## Setup
 
-TestDescriptiontest_valid_loginVerifies successful login redirects to inventory pagetest_invalid_loginValidates error message for incorrect passwordtest_empty_loginValidates error message when login fields are emptytest_add_to_cartConfirms cart badge updates when item is addedtest_full_checkout_flowComplete user journey: login → add item → checkout → order confirmation
+```bash
+git clone https://github.com/prymakyrylo/selenium-qa-portfolio.git
+cd selenium-qa-portfolio
+pip install selenium pytest webdriver-manager
+```
 
+## Run tests
 
-**Setup & Installation**
-
-Clone the repository
-
-bash   git clone https://github.com/yourusername/selenium-qa-portfolio.git
-   cd selenium-qa-portfolio
-
-Install dependencies
-
-bash   pip install selenium pytest webdriver-manager
-
-
-
-**Run tests**
-
-bash   pytest test_saucedemo.py -v
-
-**Test Results**
-
-All tests pass with 100% success rate:
-test_saucedemo.py::test_valid_login PASSED
-test_saucedemo.py::test_invalid_login PASSED
-test_saucedemo.py::test_empty_login PASSED
-test_saucedemo.py::test_add_to_cart PASSED
-test_saucedemo.py::test_full_checkout_flow PASSED
+```bash
+pytest test_saucedemo.py -v
+```
