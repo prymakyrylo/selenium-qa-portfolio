@@ -31,6 +31,8 @@ def driver():
     options.add_argument("--incognito")  # Nuclear option
     options.add_argument("--disable-notifications")
     options.add_argument("--disable-extensions")
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
     
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
@@ -39,7 +41,7 @@ def driver():
     driver.implicitly_wait(5)
     yield driver
     driver.quit()
-1
+
 # ── TESTS ─────────────────────────────────────────────────────────────────────
 
 def test_valid_login(driver):
@@ -56,7 +58,7 @@ def test_empty_login(driver):
      error = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")
      assert "Username is required" in error.text
 
-def test_add_to_card(driver):
+def test_add_to_cart(driver):
      login(driver, "standard_user", "secret_sauce")
      driver.find_element(By.XPATH, "//button[text()='Add to cart']").click()
      badge = driver.find_element(By.CLASS_NAME, "shopping_cart_badge")
@@ -90,8 +92,3 @@ def test_remove_item_from_cart(driver):
 
      badges = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
      assert len(badges) == 0, f"Expected no badge, but found {len(badges)}"
-
-
-
-
-
